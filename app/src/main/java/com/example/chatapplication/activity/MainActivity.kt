@@ -29,6 +29,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun setListeners() {
         binding.imageSignOut.setOnClickListener { signOut() }
+        binding.fabNewChat.setOnClickListener { startActivity(Intent(applicationContext, UserActivity::class.java)) }
     }
 
     private fun loadUserDetails() {
@@ -52,7 +53,6 @@ class MainActivity : AppCompatActivity() {
             preferenceManager.getString(KEY_USER_ID).toString()
         )
         documentReference.update(KEY_FCM_TOKEN, token)
-            .addOnSuccessListener { showToast("Token updated successfully") }
             .addOnFailureListener { showToast("Unable to update token") }
     }
 
