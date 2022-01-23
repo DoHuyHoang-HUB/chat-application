@@ -35,8 +35,8 @@ class ChatActivity : AppCompatActivity() {
         binding = ActivityChatBinding.inflate(layoutInflater)
         setContentView(binding.root)
         loadReceiverDetail()
-        setListeners()
         init()
+        setListeners()
         listenMessages()
     }
 
@@ -173,11 +173,11 @@ class ChatActivity : AppCompatActivity() {
             .whereEqualTo(KEY_SENDER_ID, senderId)
             .whereEqualTo(KEY_RECEIVER_ID, receivedId)
             .get()
-            .addOnCompleteListener { conversionOnCompleteListener }
+            .addOnCompleteListener(conversionOnCompleteListener)
     }
 
     private val conversionOnCompleteListener: OnCompleteListener<QuerySnapshot> = OnCompleteListener { task ->
-        if (task.isSuccessful && task.result != null && task.result!!.documents.size > 0) {
+        if (task.isSuccessful && task.result != null && task.result?.documents!!.size > 0) {
             val documentSnapshot = task.result!!.documents.get(0)
             conversionId = documentSnapshot.id
         }
