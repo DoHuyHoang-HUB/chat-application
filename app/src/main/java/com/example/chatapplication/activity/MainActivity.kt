@@ -9,14 +9,16 @@ import android.view.View
 import android.widget.Toast
 import com.example.chatapplication.adapter.RecentConversationsAdapter
 import com.example.chatapplication.databinding.ActivityMainBinding
+import com.example.chatapplication.listeners.ConversionListener
 import com.example.chatapplication.model.ChatMessage
+import com.example.chatapplication.model.User
 import com.example.chatapplication.utilities.*
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.EventListener
 import com.google.firebase.messaging.FirebaseMessaging
 import java.util.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), ConversionListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var preferenceManager: PreferenceManager
@@ -37,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        conversationsAdapter = RecentConversationsAdapter(conversations)
+        conversationsAdapter = RecentConversationsAdapter(conversations, this)
         binding.conversationsRecyclerView.adapter = conversationsAdapter
         database = FirebaseFirestore.getInstance()
     }
@@ -107,7 +109,7 @@ class MainActivity : AppCompatActivity() {
                     }
                 }
             }
-            Collections.sort(conversations, { obj1, obj2 -> obj1.dateObject!!?.compareTo(obj2.dateObject) })
+            Collections.sort(conversations, { obj1, obj2 -> obj2.dateObject!!?.compareTo(obj1.dateObject) })
             conversationsAdapter.notifyDataSetChanged()
             binding.conversationsRecyclerView.smoothScrollToPosition(0)
             binding.conversationsRecyclerView.visibility = View.VISIBLE
@@ -144,5 +146,11 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
             .addOnFailureListener { showToast("Unable to sign out") }
+    }
+
+    override fun onConversionClicked(user: User) {
+        val intent = Intent(applicationContext, ChatActivity::class.java)
+        intent.putExtra(KEY_USER, user)
+        startActivity(intent)
     }
 }

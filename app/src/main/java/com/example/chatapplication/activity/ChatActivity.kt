@@ -20,7 +20,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
 
-class ChatActivity : AppCompatActivity() {
+class ChatActivity : BaseActivity() {
 
     private lateinit var binding: ActivityChatBinding
     private var receiverUser: User? = null
@@ -121,6 +121,7 @@ class ChatActivity : AppCompatActivity() {
 
     private fun getBitmapFromEncodedString(encodedImage: String): Bitmap {
         val bytes = Base64.decode(encodedImage, Base64.DEFAULT)
+        println(bytes)
         return BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
     }
 

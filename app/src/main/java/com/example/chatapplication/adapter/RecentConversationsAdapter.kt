@@ -10,9 +10,11 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapplication.R
+import com.example.chatapplication.listeners.ConversionListener
 import com.example.chatapplication.model.ChatMessage
+import com.example.chatapplication.model.User
 
-class RecentConversationsAdapter(val chatMessages: List<ChatMessage>): RecyclerView.Adapter<RecentConversationsAdapter.ConversionViewHolder>() {
+class RecentConversationsAdapter(val chatMessages: List<ChatMessage>, val conversionListener: ConversionListener): RecyclerView.Adapter<RecentConversationsAdapter.ConversionViewHolder>() {
 
     class ConversionViewHolder(view: View?): RecyclerView.ViewHolder(view!!) {
         val imageProfile: ImageView = view!!.findViewById(R.id.imageProfile)
@@ -35,6 +37,16 @@ class RecentConversationsAdapter(val chatMessages: List<ChatMessage>): RecyclerV
         holder.imageProfile.setImageBitmap(getConversionImage(chatMessage.conversionImage.toString()))
         holder.textName.text = chatMessage.conversionName
         holder.textRecentMessage.text = chatMessage.message
+        holder.itemView.setOnClickListener {
+            val user = User(
+                chatMessage.conversionName.toString(),
+                chatMessage.conversionImage.toString(),
+                null,
+                null,
+                chatMessage.conversionId.toString()
+            )
+            conversionListener.onConversionClicked(user)
+        }
     }
 
     override fun getItemCount(): Int = chatMessages.size
