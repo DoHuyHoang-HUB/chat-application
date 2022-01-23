@@ -60,7 +60,7 @@ class SignUpActivity : AppCompatActivity() {
         users.put(KEY_EMAIL, binding.inputEmail.text.toString())
         users.put(KEY_PASSWORD, binding.inputPassword.text.toString())
         encodedImage?.let { users.put(KEY_IMAGE, it) }
-        database.collection(KEY_COLLECION_USERS)
+        database.collection(KEY_COLLECTION_USERS)
             .add(users)
             .addOnSuccessListener {
                 loading(false)

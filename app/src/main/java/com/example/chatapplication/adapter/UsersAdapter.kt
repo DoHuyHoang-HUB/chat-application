@@ -12,16 +12,19 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.chatapplication.R
 import com.example.chatapplication.databinding.ItemContainerUserBinding
+import com.example.chatapplication.listeners.UserListeners
 import com.example.chatapplication.model.User
 
 class UsersAdapter(
-    private val dataset: List<User>
+    private val dataset: List<User>,
+    private val userListeners: UserListeners
 ): RecyclerView.Adapter<UsersAdapter.UserViewHolder>() {
 
     class UserViewHolder(view: View?) : RecyclerView.ViewHolder(view!!) {
         val textName: TextView = view!!.findViewById(R.id.textName)
         val textEmail: TextView = view!!.findViewById(R.id.textEmail)
         val imageProfile: ImageView = view!!.findViewById(R.id.imageProfile)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -34,6 +37,7 @@ class UsersAdapter(
         holder.textName.text = user.name
         holder.textEmail.text = user.email
         holder.imageProfile.setImageBitmap(getUserImage(user.image))
+        holder.itemView.setOnClickListener { userListeners.onUserClicked(user) }
     }
 
     override fun getItemCount(): Int = dataset.size

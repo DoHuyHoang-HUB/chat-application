@@ -1,16 +1,18 @@
 package com.example.chatapplication.activity
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.chatapplication.adapter.UsersAdapter
 import com.example.chatapplication.databinding.ActivityUserBinding
+import com.example.chatapplication.listeners.UserListeners
 import com.example.chatapplication.model.User
 import com.example.chatapplication.utilities.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
-class UserActivity : AppCompatActivity() {
+class UserActivity : AppCompatActivity(), UserListeners {
 
     private lateinit var binding: ActivityUserBinding
     private lateinit var preferenceManager: PreferenceManager
@@ -31,7 +33,7 @@ class UserActivity : AppCompatActivity() {
     private fun getUser() {
         loading(true)
         val database = FirebaseFirestore.getInstance()
-        database.collection(KEY_COLLECION_USERS)
+        database.collection(KEY_COLLECTION_USERS)
             .get()
             .addOnCompleteListener { task ->
                 loading(false)
@@ -46,13 +48,14 @@ class UserActivity : AppCompatActivity() {
                             queryDocumentSnapshot.getString(KEY_NAME)!!,
                             queryDocumentSnapshot.getString(KEY_IMAGE)!!,
                             queryDocumentSnapshot.getString(KEY_EMAIL)!!,
-                            queryDocumentSnapshot.getString(KEY_FCM_TOKEN)
+                            queryDocumentSnapshot.getString(KEY_FCM_TOKEN),
+                            queryDocumentSnapshot.id
                         )
                         users.add(user)
                     }
 
                     if(users.size > 0) {
-                        val usersAdapter = UsersAdapter(users)
+                        val usersAdapter = UsersAdapter(users, this)
                         binding.userRecyclerView.adapter = usersAdapter
                         binding.userRecyclerView.visibility = View.VISIBLE
                     } else {
@@ -75,5 +78,12 @@ class UserActivity : AppCompatActivity() {
         } else {
             binding.progressbar.visibility = View.INVISIBLE
         }
+    }
+
+    override fun onUserClicked(user: User) {
+        val intent = Intent(applicationContext, ChatActivity::class.java)
+        intent.putExtra(KEY_USER, user)
+        startActivity(intent)
+        finish()
     }
 }
