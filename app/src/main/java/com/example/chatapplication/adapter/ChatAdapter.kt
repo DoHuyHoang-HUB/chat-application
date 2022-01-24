@@ -15,7 +15,7 @@ const val VIEW_TYPE_RECEIVED = 2
 
 class ChatAdapter(
     val chatMessage: List<ChatMessage>,
-    val receivedProfileImage: Bitmap,
+    var receivedProfileImage: Bitmap?,
     val senderId: String
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
@@ -28,6 +28,7 @@ class ChatAdapter(
         val textMessage: TextView = view!!.findViewById(R.id.textMessage)
         val textDateTime: TextView = view!!.findViewById(R.id.textDateTime)
         val receivedProfileImage: ImageView = view!!.findViewById(R.id.imageProfile)
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,7 +49,9 @@ class ChatAdapter(
             val holderNew = holder as ReceivedMessageViewHolder
             holderNew.textMessage.text = message.message
             holderNew.textDateTime.text = message.dateTime
-            holderNew.receivedProfileImage.setImageBitmap(receivedProfileImage)
+            if (receivedProfileImage != null) {
+                holderNew.receivedProfileImage.setImageBitmap(receivedProfileImage)
+            }
         }
     }
 
@@ -60,6 +63,10 @@ class ChatAdapter(
         } else {
             return VIEW_TYPE_RECEIVED
         }
+    }
+
+    fun setReceiverProfileImage(bitmap: Bitmap) {
+        receivedProfileImage = bitmap
     }
 
 }

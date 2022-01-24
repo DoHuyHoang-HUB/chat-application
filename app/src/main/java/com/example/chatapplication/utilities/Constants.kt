@@ -1,6 +1,4 @@
 
-@file:JvmName("Constants")
-
 package com.example.chatapplication.utilities
 
 const val KEY_COLLECTION_USERS = "users"
@@ -25,3 +23,28 @@ const val KEY_SENDER_IMAGE = "senderImage"
 const val KEY_RECEIVER_IMAGE = "receiverImage"
 const val KEY_LAST_MESSAGE = "lastMessage"
 const val KEY_AVAILABILITY = "availability"
+const val REMOTE_MSG_AUTHORIZATION = "Authorization"
+const val REMOTE_MSG_CONTENT_TYPE = "Content-Type"
+const val REMOTE_MSG_DATA = "data"
+const val REMOTE_MSG_REGISTRATION_IDS = "registration_ids"
+
+class Constants {
+    companion object {
+        private var remoteMsgHeaders: HashMap<String, String>? = null
+
+        fun getRemoteMsgHeaders(): HashMap<String, String> {
+            if (remoteMsgHeaders == null) {
+                remoteMsgHeaders = hashMapOf()
+                remoteMsgHeaders?.put(
+                    REMOTE_MSG_AUTHORIZATION,
+                    "key=AAAAI13xfSA:APA91bF56bkUJkc74DDKXr5-ErlgOl09OlDbhQW6-8BwpGIlixfusP8MPcVWQnTlZlN8FRoUkWvgakguhCyolyWc56OdtMa5vx_j4ytekRLPRwLCN3o7cwHXqj5pAHKucqFbzZZkghSG"
+                )
+                remoteMsgHeaders?.put(
+                    REMOTE_MSG_CONTENT_TYPE,
+                    "application/json"
+                )
+            }
+            return remoteMsgHeaders as HashMap<String, String>
+        }
+    }
+}

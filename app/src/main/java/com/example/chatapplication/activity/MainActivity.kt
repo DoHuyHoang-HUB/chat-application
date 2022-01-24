@@ -2,7 +2,6 @@ package com.example.chatapplication.activity
 
 import android.content.Intent
 import android.graphics.BitmapFactory
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Base64
 import android.view.View
@@ -18,7 +17,7 @@ import com.google.firebase.firestore.EventListener
 import com.google.firebase.messaging.FirebaseMessaging
 import java.util.*
 
-class MainActivity : AppCompatActivity(), ConversionListener {
+class MainActivity : BaseActivity(), ConversionListener {
 
     private lateinit var binding: ActivityMainBinding
     private lateinit var preferenceManager: PreferenceManager
@@ -122,6 +121,7 @@ class MainActivity : AppCompatActivity(), ConversionListener {
     }
 
     private fun updateToken(token: String) {
+        preferenceManager.putString(KEY_FCM_TOKEN, token)
         val database = FirebaseFirestore.getInstance()
         val documentReference = database.collection(KEY_COLLECTION_USERS).document(
             preferenceManager.getString(KEY_USER_ID).toString()

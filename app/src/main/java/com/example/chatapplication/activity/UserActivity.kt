@@ -1,7 +1,6 @@
 package com.example.chatapplication.activity
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import com.example.chatapplication.adapter.UsersAdapter
@@ -12,7 +11,7 @@ import com.example.chatapplication.utilities.*
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.QueryDocumentSnapshot
 
-class UserActivity : AppCompatActivity(), UserListeners {
+class UserActivity : BaseActivity(), UserListeners {
 
     private lateinit var binding: ActivityUserBinding
     private lateinit var preferenceManager: PreferenceManager
